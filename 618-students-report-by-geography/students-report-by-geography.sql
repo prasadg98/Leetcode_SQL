@@ -1,16 +1,16 @@
 # Write your MySQL query statement below
-WITH ranked AS (
-  SELECT
-    name,
+
+WITH CTE1 AS (
+    SELECT name,
     continent,
-    ROW_NUMBER() OVER (PARTITION BY continent ORDER BY name) AS rn
-  FROM Student
+    row_number() over (partition by continent order by name asc) as rn
+    FROM Student
 )
-SELECT
-  MAX(CASE WHEN continent = 'America' THEN name END) AS America,
-  MAX(CASE WHEN continent = 'Asia'    THEN name END) AS Asia,
-  MAX(CASE WHEN continent = 'Europe'  THEN name END) AS Europe
-FROM ranked
+select 
+MAX(CASE WHEN continent = 'America' then name END) as America,
+MAX(CASE WHEN continent = 'Asia' then name END) as Asia,
+MAX(CASE WHEN continent = 'Europe' then name END) as Europe
+FROM CTE1
 GROUP BY rn
-ORDER BY rn;
+
 
